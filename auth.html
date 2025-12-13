@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign In — IITWorks MSU-IIT</title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Common CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    .auth-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      min-height: calc(100vh - 70px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .auth-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      width: 100%;
+      max-width: 1000px;
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(102, 0, 0, 0.1);
+      border: 2px solid var(--border);
+    }
+    
+    .auth-left {
+      padding: 30px 50px 30px 50px;
+      background: linear-gradient(135deg, #fff5f5 0%, #ffe6e6 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start; /* align content toward top to match right column tabs */
+    }
+    
+    .auth-right {
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .auth-logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .auth-logo-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 36px;
+      color: var(--primary);
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+    
+    .auth-logo-text span {
+      color: var(--accent);
+    }
+    
+    .welcome-title {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
+    
+    .welcome-subtitle {
+      font-size: 18px;
+      color: var(--muted);
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    
+    .feature-list {
+      margin-top: 40px;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 12px;
+      border: 1px solid rgba(102, 0, 0, 0.1);
+    }
+    
+    .feature-icon {
+      width: 50px;
+      height: 50px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    
+    .feature-text h4 {
+      margin: 0 0 5px 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+    
+    .feature-text p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    
+    .auth-tabs {
+      display: flex;
+      margin-bottom: 30px;
+      background: #fff5f5;
+      border-radius: 16px;
+      padding: 6px;
+      border: 2px solid var(--border);
+    }
+    
+    .auth-tab {
+      flex: 1;
+      padding: 16px;
+      text-align: center;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--muted);
+      border-radius: 12px;
+      transition: all 0.3s;
+      font-size: 16px;
+    }
+    
+    .auth-tab:hover {
+      background: rgba(102, 0, 0, 0.05);
+    }
+    
+    .auth-tab.active {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 4px 12px rgba(102, 0, 0, 0.1);
+    }
+    
+    .auth-form {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      border: 2px solid var(--border);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+    }
+    
+    .form-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .form-header h2 {
+      font-size: 28px;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    
+    .form-header p {
+      color: var(--muted);
+      margin: 0;
+    }
+    
+    .form-group {
+      margin-bottom: 24px;
+    }
+    
+    .form-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 15px;
+      color: var(--text);
+    }
+    
+    .form-input-wrapper {
+      position: relative;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 16px 16px 16px 50px;
+      border: 2px solid #d1d5db;
+      border-radius: 12px;
+      font-size: 16px;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+      background: white;
+    }
+    
+    .form-input:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(102,0,0,0.1);
+    }
+    
+    .form-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--primary);
+      font-size: 18px;
+    }
+    
+    .auth-submit-btn {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 17px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .auth-submit-btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 0, 0, 0.2);
+    }
+    
+    .test-accounts {
+      background: #fff5f5;
+      padding: 25px;
+      border-radius: 16px;
+      border: 2px dashed var(--primary);
+      margin-top: 40px;
+    }
+    
+    .test-accounts h4 {
+      color: var(--primary);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .test-account {
+      padding: 15px;
+      background: white;
+      border-radius: 12px;
+      margin: 10px 0;
+      border: 1px solid var(--border);
+    }
+    
+    .test-account strong {
+      color: var(--primary);
+      display: block;
+      margin-bottom: 8px;
+    }
+    
+    .test-account code {
+      background: #f3f2f1;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-family: monospace;
+      color: var(--text);
+    }
+    
+    .test-account small {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    
+    .divider {
+      text-align: center;
+      margin: 30px 0;
+      position: relative;
+    }
+    
+    .divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--border);
+    }
+    
+    .divider span {
+      background: white;
+      padding: 0 20px;
+      color: var(--muted);
+      font-size: 14px;
+      position: relative;
+    }
+    
+    .login-options {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .login-option-btn {
+      flex: 1;
+      padding: 14px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      background: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    
+    .login-option-btn:hover {
+      border-color: var(--primary);
+      background: #fff5f5;
+    }
+    
+    .back-to-landing {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    
+    .back-to-landing a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .back-to-landing a:hover {
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 900px) {
+      .auth-wrapper {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+      }
+      
+      .auth-left, .auth-right {
+        padding: 30px;
+      }
+      
+      .welcome-title {
+        font-size: 32px;
+      }
+      
+      .auth-logo-text {
+        font-size: 28px;
+      }
+      
+      .auth-form {
+        padding: 30px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .auth-container {
+        padding: 20px 10px;
+      }
+      
+      .auth-left, .auth-right {
+        padding: 20px;
+      }
+      
+      .auth-form {
+        padding: 20px;
+      }
+      
+      .welcome-title {
+        font-size: 28px;
+      }
+      
+      .feature-item {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .login-options {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hdr">
+      <div class="nav-left">
+        <a href="landing.html" class="brand">
+            <svg width="32" height="32" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#660000;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#4d0000;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect x="0" y="0" width="100" height="100" rx="20" fill="url(#logoGrad)" />
+                <path d="M25 30 L35 70 L50 40 L65 70 L75 30" stroke="#FFD700" stroke-width="8" fill="none"/>
+                <circle cx="50" cy="50" r="15" fill="none" stroke="#FFD700" stroke-width="3"/>
+            </svg>
+            <div class="brand-text">IIT<span>Works</span> <span class="iit-badge">MSU-IIT</span></div>
+        </a>
+      </div>
+      <div class="nav-right">
+        <a href="landing.html" class="sign-in">
+            <i class="fas fa-home"></i> Back to Home
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="auth-container">
+    <div class="auth-wrapper">
+      <!-- Left Column: Welcome & Features -->
+      <div class="auth-left">
+        <div class="auth-logo">
+          <svg width="50" height="50" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="logoGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#660000;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#4d0000;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="100" height="100" rx="20" fill="url(#logoGrad2)" />
+            <path d="M25 30 L35 70 L50 40 L65 70 L75 30" stroke="#FFD700" stroke-width="8" fill="none"/>
+            <circle cx="50" cy="50" r="15" fill="none" stroke="#FFD700" stroke-width="3"/>
+          </svg>
+          <div class="auth-logo-text">IIT<span>Works</span></div>
+        </div>
+        
+        <h1 class="welcome-title">Welcome Back, IITian!</h1>
+        <p class="welcome-subtitle">
+          Access the exclusive MSU-IIT Campus Quest. Connect with fellow IITians, 
+          offer your skills, and find services within our campus community.
+        </p>
+        
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="feature-text">
+              <h4>Exclusive to MSU-IIT</h4>
+              <p>Verified students only. Secure campus environment.</p>
+            </div>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-icon">
+              <i class="fas fa-handshake"></i>
+            </div>
+            <div class="feature-text">
+              <h4>Trusted Community</h4>
+              <p>Connect with verified IIT students you can trust.</p>
+            </div>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <div class="feature-text">
+              <h4>Instant Access</h4>
+              <p>Start browsing and posting services immediately.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right Column: Authentication Forms -->
+      <div class="auth-right">
+        <div class="auth-tabs">
+          <div class="auth-tab active" onclick="switchAuthTab('login')">
+            <i class="fas fa-sign-in-alt"></i> Sign In
+          </div>
+          <div class="auth-tab" onclick="switchAuthTab('signup')">
+            <i class="fas fa-user-plus"></i> Sign Up
+          </div>
+        </div>
+        
+        <!-- Login Form -->
+        <div id="login-form" class="auth-form">
+          <div class="form-header">
+            <h2>Sign In to IITWorks</h2>
+            <p>Use your MSU-IIT credentials to continue</p>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">MSU-IIT Email Address</label>
+            <div class="form-input-wrapper">
+              <i class="fas fa-envelope form-icon"></i>
+              <input type="email" class="form-input" id="loginEmail" placeholder="your.name@g.msuiit.edu.ph" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="form-input-wrapper">
+              <i class="fas fa-lock form-icon"></i>
+              <input type="password" class="form-input" id="loginPassword" placeholder="Enter your password" required>
+            </div>
+          </div>
+          
+          <button class="auth-submit-btn" onclick="handleLogin()">
+            <i class="fas fa-sign-in-alt"></i> Sign In to IITWorks
+          </button>
+          
+          <div class="divider">
+            <span>Or use test accounts</span>
+          </div>
+          
+          <div class="login-options">
+            <button class="login-option-btn" onclick="fillTestAccount('admin')">
+              <i class="fas fa-crown"></i> Use Admin Account
+            </button>
+            <button class="login-option-btn" onclick="fillTestAccount('student')">
+              <i class="fas fa-user-graduate"></i> Use Student Account
+            </button>
+          </div>
+          
+          <div class="back-to-landing">
+            <a href="landing.html">
+              <i class="fas fa-arrow-left"></i> Back to Homepage
+            </a>
+          </div>
+        </div>
+        
+        <!-- Signup Form -->
+        <div id="signup-form" class="auth-form hidden">
+          <div class="form-header">
+            <h2>Join IITWorks Community</h2>
+            <p>Create your account to start offering or finding services</p>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <div class="form-input-wrapper">
+              <i class="fas fa-user form-icon"></i>
+              <input type="text" class="form-input" id="signupName" placeholder="Your full name" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">MSU-IIT Email Address</label>
+            <div class="form-input-wrapper">
+              <i class="fas fa-envelope form-icon"></i>
+              <input type="email" class="form-input" id="signupEmail" placeholder="your.name@g.msuiit.edu.ph" required>
+            </div>
+            <small style="color: var(--muted); display: block; margin-top: 5px;">
+              <i class="fas fa-info-circle"></i> Must use @g.msuiit.edu.ph domain
+            </small>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Course & Year</label>
+            <div class="form-input-wrapper">
+              <i class="fas fa-graduation-cap form-icon"></i>
+              <input type="text" class="form-input" id="signupCourse" placeholder="e.g., BS Computer Application 1st Year" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="form-input-wrapper">
+              <i class="fas fa-lock form-icon"></i>
+              <input type="password" class="form-input" id="signupPassword" placeholder="Create a password" required>
+            </div>
+            <small style="color: var(--muted); display: block; margin-top: 5px;">
+              <i class="fas fa-shield-alt"></i> Minimum 6 characters
+            </small>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Confirm Password</label>
+            <div class="form-input-wrapper">
+              <i class="fas fa-lock form-icon"></i>
+              <input type="password" class="form-input" id="signupConfirmPassword" placeholder="Confirm your password" required>
+            </div>
+          </div>
+          
+          <button class="auth-submit-btn" onclick="handleSignup()">
+            <i class="fas fa-user-plus"></i> Create Account
+          </button>
+          
+          <div style="text-align: center; margin-top: 20px;">
+            <p style="color: var(--muted); font-size: 14px;">
+              By creating an account, you agree to our 
+              <a href="#" style="color: var(--primary); font-weight: 600;">Terms of Service</a> 
+              and 
+              <a href="#" style="color: var(--primary); font-weight: 600;">Privacy Policy</a>
+            </p>
+          </div>
+          
+          <div class="back-to-landing">
+            <a href="landing.html">
+              <i class="fas fa-arrow-left"></i> Back to Homepage
+            </a>
+          </div>
+        </div>
+        
+        <!-- Test Accounts -->
+        <div class="test-accounts">
+          <h4><i class="fas fa-vial"></i> Testing Accounts</h4>
+          <div class="test-account">
+            <strong><i class="fas fa-crown"></i> Admin Account</strong>
+            <div>Email: <code>admin@msuiit.edu.ph</code></div>
+            <div>Password: <code>admin123</code></div>
+            <small>Can delete any job, manage users</small>
+          </div>
+          <div class="test-account">
+            <strong><i class="fas fa-user-graduate"></i> Student Account</strong>
+            <div>Email: <code>student@msuiit.edu.ph</code></div>
+            <div>Password: <code>student123</code></div>
+            <small>Can only delete own jobs</small>
+          </div>
+          <p style="color: var(--muted); font-size: 14px; margin-top: 15px;">
+            <i class="fas fa-info-circle"></i> You can also create new accounts using the Sign Up form
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUCCESS MESSAGE -->
+  <div id="successMessage" class="success-message hidden">
+      <i class="fas fa-check-circle" style="font-size: 20px;"></i>
+      <div>
+          <div style="font-weight: 700;" id="successTitle">Success!</div>
+          <div style="font-size: 13px;" id="successSubtitle"></div>
+      </div>
+  </div>
+
+  <!-- Common JS -->
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
+  
+  <script>
+    // Initialize auth
+    Auth.init();
+    
+    // Check if user is already logged in
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    if (currentUser) {
+        // Redirect to main page if already logged in
+        window.location.href = 'index.html';
+    }
+    
+    function switchAuthTab(tab) {
+        document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+        document.getElementById('login-form').classList.toggle('hidden', tab !== 'login');
+        document.getElementById('signup-form').classList.toggle('hidden', tab !== 'signup');
+        
+        const activeTab = document.querySelector(`.auth-tab[onclick*="${tab}"]`);
+        if (activeTab) activeTab.classList.add('active');
+    }
+    
+    function fillTestAccount(type) {
+      if (type === 'admin') {
+        document.getElementById('loginEmail').value = 'admin@msuiit.edu.ph';
+        document.getElementById('loginPassword').value = 'admin123';
+      } else if (type === 'student') {
+        document.getElementById('loginEmail').value = 'student@msuiit.edu.ph';
+        document.getElementById('loginPassword').value = 'student123';
+      }
+      
+      // Switch to login tab if we're on signup
+      switchAuthTab('login');
+      
+      // Focus on the password field
+      document.getElementById('loginPassword').focus();
+    }
+    
+    function handleLogin() {
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        
+        if (!email || !password) {
+            showSuccessMessage('Please fill in all fields', 'error');
+            return;
+        }
+        
+        const result = Auth.login(email, password);
+        
+        if (result.success) {
+            showSuccessMessage(`Welcome back, ${result.user.name}!`);
+            setTimeout(() => {
+                window.location.href = 'index.html?welcome=true';
+            }, 1500);
+        } else {
+            showSuccessMessage(result.message, 'error');
+        }
+    }
+    
+    function handleSignup() {
+        const name = document.getElementById('signupName').value;
+        const email = document.getElementById('signupEmail').value;
+        const course = document.getElementById('signupCourse').value;
+        const password = document.getElementById('signupPassword').value;
+        const confirmPassword = document.getElementById('signupConfirmPassword').value;
+        
+        if (!name || !email || !course || !password || !confirmPassword) {
+            showSuccessMessage('Please fill in all fields', 'error');
+            return;
+        }
+        
+        if (password !== confirmPassword) {
+            showSuccessMessage('Passwords do not match', 'error');
+            return;
+        }
+        
+        if (password.length < 6) {
+            showSuccessMessage('Password must be at least 6 characters', 'error');
+            return;
+        }
+        
+        const userData = {
+            name,
+            email,
+            course,
+            password
+        };
+        
+        const result = Auth.signup(userData);
+        
+        if (result.success) {
+            showSuccessMessage(`Account created successfully! Welcome, ${result.user.name}`);
+            setTimeout(() => {
+                window.location.href = 'index.html?welcome=true';
+            }, 1500);
+        } else {
+            showSuccessMessage(result.message, 'error');
+        }
+    }
+  </script>
+ <footer>
+
+    <div class="footer-container">
+
+        
+
+        <div class="footer-col footer-brand">
+
+            <div class="brand">
+
+                <i class="fa-solid fa-graduation-cap" style="color: #FFD700;"></i>
+
+                <div class="brand-text">IIT<span>Works</span></div>
+
+            </div>
+
+            <p>The exclusive Campus Quest for MSU-IIT.</p>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Quick Links</h3>
+
+            <ul class="footer-links">
+
+                <li><a href="index.html">Home</a></li>
+
+                <li><a href="landing2.html">Quest Board</a></li>
+
+                <li><a href="post2.html">Post Service</a></li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Support</h3>
+
+            <ul class="footer-links">
+
+                <li><a href="#">About</a></li>
+
+                <li><a href="#">Privacy</a></li>
+
+                <li><a href="#">Terms</a></li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Connect</h3>
+
+            <div class="social-icons">
+
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+
+                <a href="#" class="social-btn"><i class="fab fa-telegram-plane"></i></a>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        &copy; 2025 IIT Works | CCC100
+
+    </div>
+
+</footer>
+<!-- VIDEO BACKGROUND -->
+<div class="video-background">
+    <video autoplay muted loop playsinline>
+        <source src="images/videos/carousel.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+
+<!-- RED OVERLAY -->
+<div class="video-overlay"></div>
+</body>
+</html>

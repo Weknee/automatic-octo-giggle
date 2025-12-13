@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Post a Service | GigQuest</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="css/style2.css">
+
+  <style>
+    /* --- CRITICAL FIX FOR SCROLLING --- */
+    /* style2.css locks the screen for the dashboard. We must unlock it here. */
+    body {
+        height: auto !important;
+        overflow-y: auto !important;
+        display: block !important;
+    }
+    
+    .main-wrapper {
+        overflow: visible !important;
+        height: auto !important;
+        display: flex;
+        justify-content: center;
+        padding: 40px 20px;
+        padding-bottom: 100px; /* Extra space at bottom */
+    }
+    /* ---------------------------------- */
+
+    .form-container {
+        width: 100%;
+        max-width: 600px;
+        background: var(--card);
+        padding: 40px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        margin-top: 20px;
+    }
+    
+    .form-header { text-align: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+    .form-title { font-family: 'Outfit'; font-size: 28px; color: var(--primary); font-weight: 800; }
+    .form-subtitle { color: var(--muted); margin-top: 5px; }
+
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+    
+    .form-input, .form-select, .form-textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-family: 'Inter';
+        font-size: 15px;
+        background: #f8fafc;
+        transition: 0.2s;
+        color: #333;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        background: white;
+    }
+
+    /* THE POST BUTTON STYLE */
+    .btn-submit {
+        width: 100%;
+        padding: 16px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        box-shadow: 0 4px 10px rgba(128, 0, 0, 0.2);
+    }
+    .btn-submit:hover { 
+        background: var(--primary-dark); 
+        transform: translateY(-2px);
+    }
+
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 14px;
+        transition: 0.2s;
+    }
+    .btn-back:hover { color: var(--primary); transform: translateX(-5px); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="hdr">
+      <div class="nav-left">
+        <a href="landing2.html" class="brand">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <div class="brand-text">Gig<span>Quest</span> <span class="iit-badge">MSU-IIT</span></div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="main-wrapper">
+    <div class="form-container">
+        
+        <a href="landing2.html" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Back to Feed
+        </a>
+        
+        <div class="form-header">
+            <h1 class="form-title">Post a Service</h1>
+            <p class="form-subtitle">Fill out the details below to appear on the feed.</p>
+        </div>
+
+        <form id="questForm">
+            
+            <div class="form-group">
+                <label class="form-label">Title (What do you need/offer?)</label>
+                <input type="text" id="q-title" class="form-input" placeholder="e.g. Need someone to print documents" required>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="form-group">
+                    <label class="form-label">Type</label>
+                    <select id="q-type" class="form-select">
+                        <option value="LOOKING FOR">🔍 Looking For</option>
+                        <option value="OFFERING SERVICE">🛠️ Offering Service</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Price / Fee</label>
+                    <input type="text" id="q-price" class="form-input" placeholder="e.g. ₱50" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Your Name</label>
+                <input type="text" id="q-name" class="form-input" placeholder="e.g. Juan Dela Cruz" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Location (Building/Room)</label>
+                <input type="text" id="q-loc" class="form-input" placeholder="e.g. CSM Library" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Details</label>
+                <textarea id="q-desc" class="form-textarea" rows="4" placeholder="Describe specific instructions..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Contact Number / Whatsapp</label>
+                <input type="text" id="q-phone" class="form-input" placeholder="e.g. 0917-XXX-XXXX" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Messenger Username (Optional)</label>
+                <input type="text" id="q-messenger" class="form-input" placeholder="e.g. Lyle">
+            </div>
+
+            <button type="submit" class="btn-submit" id="postBtn">
+                <i class="fas fa-paper-plane"></i> Post Now
+            </button>
+
+        </form>
+
+    </div>
+  </div>
+
+  <script>
+    // Wait for DOM to load
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        const form = document.getElementById('questForm');
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Stop page reload
+
+            // 1. Check if elements exist
+            const titleInput = document.getElementById('q-title');
+            if (!titleInput) {
+                alert("Error: Form elements not found.");
+                return;
+            }
+
+            // 2. Gather Data
+            const newPost = {
+                id: Date.now(),
+                title: document.getElementById('q-title').value,
+                type: document.getElementById('q-type').value,
+                price: document.getElementById('q-price').value,
+                name: document.getElementById('q-name').value,
+                initials: document.getElementById('q-name').value.substring(0, 2).toUpperCase(),
+                location: document.getElementById('q-loc').value,
+                desc: document.getElementById('q-desc').value,
+                phone: document.getElementById('q-phone').value,
+                messenger: document.getElementById('q-messenger').value || "#"
+            };
+
+            // 3. Save to Local Storage
+            try {
+                let existingPosts = JSON.parse(localStorage.getItem('campusPosts')) || [];
+                existingPosts.unshift(newPost);
+                localStorage.setItem('campusPosts', JSON.stringify(existingPosts));
+                
+                // 4. Success & Redirect
+                alert("Success! Your post is now live.");
+                window.location.href = 'landing2.html';
+            } catch (error) {
+                console.error(error);
+                alert("Storage error. Please try again.");
+            }
+        });
+    });
+  </script>
+<footer>
+
+    <div class="footer-container">
+
+        
+
+        <div class="footer-col footer-brand">
+
+            <div class="brand">
+
+                <i class="fa-solid fa-graduation-cap" style="color: #FFD700;"></i>
+
+                <div class="brand-text">IIT<span>Works</span></div>
+
+            </div>
+
+            <p>The exclusive Campus Quest for MSU-IIT.</p>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Quick Links</h3>
+
+            <ul class="footer-links">
+
+                <li><a href="index.html">Home</a></li>
+
+                <li><a href="landing2.html">Quest Board</a></li>
+
+                <li><a href="post2.html">Post Service</a></li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Support</h3>
+
+            <ul class="footer-links">
+
+                <li><a href="#">About</a></li>
+
+                <li><a href="#">Privacy</a></li>
+
+                <li><a href="#">Terms</a></li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Connect</h3>
+
+            <div class="social-icons">
+
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+
+                <a href="#" class="social-btn"><i class="fab fa-telegram-plane"></i></a>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        &copy; 2025 IIT Works | CCC100
+
+    </div>
+
+</footer>
+</body>
+</html>

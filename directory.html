@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Student Directory — IITWorks MSU-IIT</title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Common CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    .post-container { max-width: 1200px; margin: 40px auto; padding: 20px; width: 100%; }
+    
+    .student-directory-grid {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Authentication check -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        if (!user) {
+            // Redirect to auth page if not logged in
+            window.location.href = 'auth.html';
+        }
+    });
+  </script>
+
+  <header>
+    <div class="hdr">
+      <div class="nav-left">
+        <a href="index.html" class="brand">
+            <!-- Same logo SVG -->
+            <svg width="32" height="32" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#660000;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#4d0000;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect x="0" y="0" width="100" height="100" rx="20" fill="url(#logoGrad)" />
+                <path d="M25 30 L35 70 L50 40 L65 70 L75 30" stroke="#FFD700" stroke-width="8" fill="none"/>
+                <circle cx="50" cy="50" r="15" fill="none" stroke="#FFD700" stroke-width="3"/>
+            </svg>
+            <div class="brand-text">IIT<span>Works</span> <span class="iit-badge">MSU-IIT</span></div>
+        </a>
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="post.html" class="nav-link">Post a Service</a>
+        <a href="directory.html" class="nav-link active">Student Directory</a>
+        <a href="landing2.html" style="background: var(--primary); color: white; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 6px; transition: 0.2s; text-decoration: none; border: 1px solid #FFD700; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+    <i class="fas fa-scroll"></i> Gig Quest
+</a>
+      </div>
+      <div class="nav-right" id="navAuth">
+        <!-- Will be populated by JavaScript -->
+        <a href="auth.html" class="sign-in">
+            <i class="fas fa-graduation-cap"></i> IIT Sign In
+        </a>
+        <a href="post.html" class="post-gig-link">
+            <i class="fas fa-plus-circle"></i> Post Your Service
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="post-container">
+      <div style="text-align: center; margin-bottom: 30px;">
+          <h1 class="hero-title">MSU-IIT Student Directory</h1>
+          <p style="color: var(--muted);">Connect with talented students across campus.</p>
+      </div>
+      
+      <div class="category-container" style="margin-bottom: 30px;">
+          <button class="category-btn art active" onclick="filterStudents('all')">
+              <i class="fas fa-users"></i> All Students
+          </button>
+          <button class="category-btn art" onclick="filterStudents('art')">
+              <i class="fas fa-palette"></i> Artists
+          </button>
+          <button class="category-btn tech" onclick="filterStudents('tech')">
+              <i class="fas fa-code"></i> Tech Students
+          </button>
+          <button class="category-btn acad" onclick="filterStudents('acad')">
+              <i class="fas fa-book"></i> Tutors
+          </button>
+      </div>
+      
+      <div class="student-directory-grid" id="studentDirectory">
+          <div class="empty-state" style="grid-column: 1 / -1;">
+              <i class="fas fa-users"></i>
+              <h3>No students have posted services yet</h3>
+              <p>Be the first to post a service!</p>
+          </div>
+      </div>
+  </div>
+
+  <!-- Common JS -->
+  <script src="js/main.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check authentication first
+        const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        if (!user) {
+            window.location.href = 'auth.html';
+            return;
+        }
+        
+        // Only run these if user is logged in
+        highlightActiveNav('directory');
+        loadStudentDirectory();
+    });
+
+    function filterStudents(category) {
+        // Update active filter button
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
+        
+        // Note: In a real app, this would filter the student directory
+        loadStudentDirectory();
+    }
+
+    function highlightActiveNav(page) {
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        const currentPage = document.querySelector(`a[href="${page}.html"], a[href="${page}"]`);
+        if (currentPage) {
+            currentPage.classList.add('active');
+        }
+    }
+  </script>
+  <!-- Delete Confirmation Modal -->
+<div id="deleteConfirmModal" class="delete-confirm-modal hidden">
+    <div class="delete-modal-content">
+        <div class="delete-modal-header">
+            <i class="fas fa-exclamation-triangle" style="font-size: 24px; color: #dc2626;"></i>
+            <h3 style="margin: 0; color: #dc2626;">Delete Service</h3>
+        </div>
+        <p id="deleteModalMessage">Are you sure you want to delete this service?</p>
+        <div class="delete-modal-actions">
+            <button onclick="closeDeleteModal()" style="padding: 10px 20px; background: #e5e7eb; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                Cancel
+            </button>
+            <button onclick="confirmDelete()" style="padding: 10px 20px; background: #dc2626; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                <i class="fas fa-trash"></i> Delete
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+.delete-confirm-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.delete-modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.delete-modal-header {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.delete-modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+</style>
+
+<script>
+let deleteJobId = null;
+
+function showDeleteModal(jobId, jobTitle) {
+    deleteJobId = jobId;
+    document.getElementById('deleteModalMessage').innerHTML = `
+        Are you sure you want to delete the service:<br>
+        <strong>"${jobTitle}"</strong>?<br><br>
+        <span style="color: #dc2626;">
+            <i class="fas fa-exclamation-triangle"></i> 
+            This action cannot be undone.
+        </span>
+    `;
+    document.getElementById('deleteConfirmModal').classList.remove('hidden');
+}
+
+function closeDeleteModal() {
+    document.getElementById('deleteConfirmModal').classList.add('hidden');
+    deleteJobId = null;
+}
+
+function confirmDelete() {
+    if (deleteJobId) {
+        const result = Admin.deleteJob(deleteJobId);
+        
+        if (result.success) {
+            showSuccessMessage(`Service deleted: "${result.jobTitle}"`);
+            
+            // Reload the page or update the feed
+            if (window.location.pathname.includes('index.html')) {
+                renderFeed();
+                // Clear details pane
+                const detailContent = document.getElementById('detail-content');
+                if (detailContent) {
+                    detailContent.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-trash"></i>
+                            <h3>Service Deleted</h3>
+                            <p>This service has been removed</p>
+                        </div>
+                    `;
+                }
+            } else {
+                // For other pages, reload after a delay
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            }
+        } else {
+            showSuccessMessage(result.message, 'error');
+        }
+        
+        closeDeleteModal();
+    }
+}
+</script>
+<footer>
+
+    <div class="footer-container">
+
+        
+
+        <div class="footer-col footer-brand">
+
+            <div class="brand">
+
+                <i class="fa-solid fa-graduation-cap" style="color: #FFD700;"></i>
+
+                <div class="brand-text">IIT<span>Works</span></div>
+
+            </div>
+
+            <p>The exclusive Campus Quest for MSU-IIT.</p>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Quick Links</h3>
+
+            <ul class="footer-links">
+
+                <li><a href="index.html">Home</a></li>
+
+                <li><a href="landing2.html">Quest Board</a></li>
+
+                <li><a href="post2.html">Post Service</a></li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Support</h3>
+
+            <ul class="footer-links">
+
+                <li><a href="#">About</a></li>
+
+                <li><a href="#">Privacy</a></li>
+
+                <li><a href="#">Terms</a></li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Connect</h3>
+
+            <div class="social-icons">
+
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+
+                <a href="#" class="social-btn"><i class="fab fa-telegram-plane"></i></a>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        &copy; 2025 IIT Works | CCC100
+
+    </div>
+
+</footer>
+</body>
+</html>

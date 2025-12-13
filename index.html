@@ -1,1 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>IITWorks — MSU-IIT Campus Quest</title>
+  
+  <!-- Fonts & Icons1 -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Common CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Page-specific CSS -->
+  <style>
+    /* Homepage-specific styles */
+    .hero-intro { 
+        padding: 60px 20px 40px; text-align: center; 
+        background: linear-gradient(135deg, #fff5f5 0%, #ffe6e6 100%);
+        border-bottom: 1px solid var(--border); margin-bottom: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+    .hero-intro::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary));
+    }
+    .hero-title { 
+        font-size: 42px; font-family: 'Outfit', sans-serif; font-weight: 800; 
+        margin: 0 0 20px 0; color: var(--primary);
+    }
+    .hero-subtitle {
+        font-size: 18px; color: var(--muted); max-width: 700px; margin: 0 auto 40px;
+    }
+    
+    .search-box-centered {
+        max-width: 800px; margin: 0 auto; display: flex; gap: 12px; 
+        background: var(--card); padding: 8px; border: 2px solid var(--primary);
+        border-radius: 12px; box-shadow: 0 4px 12px rgba(102,0,0,0.1);
+    }
+    
+    .post-service-link { margin-top: 24px; font-size: 14px; color: var(--text); }
+    .post-service-link a { 
+        color: var(--primary); font-weight: 700; text-decoration: none;
+        border-bottom: 2px solid var(--accent);
+    }
 
+    .category-container {
+        display: flex; justify-content: center; margin-top: 30px; gap: 10px; flex-wrap: wrap;
+    }
+    
+    .main-content { flex: 1; display: flex; justify-content: center; background: #fff5f5; padding-top: 20px; }
+    .grid-layout { 
+        display: grid; grid-template-columns: 440px 1fr; gap: 25px; 
+        width: 100%; max-width: 1200px; height: calc(100vh - 400px); 
+        min-height: 500px; padding: 0 20px 40px; 
+    }
+
+    /* GIG FEED */
+    .gig-feed { overflow-y: auto; padding-right: 10px; height: 100%; }
+    .gig-feed::-webkit-scrollbar { width: 6px; }
+    .gig-feed::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+    .gig-feed::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+    
+    /* DETAILS PANE */
+    .details-pane { 
+        background: var(--card); border: 2px solid var(--border); border-radius: 12px; 
+        height: 100%; overflow: hidden; display: flex; flex-direction: column; 
+        box-shadow: 0 8px 30px rgba(0,0,0,0.08); position: sticky; top: 25px; 
+    }
+    
+    .pane-tabs { display: flex; border-bottom: 1px solid var(--border); background: #fff5f5; }
+    .pane-tab { 
+        flex: 1; padding: 14px; text-align: center; cursor: pointer; 
+        font-weight: 600; font-size: 14px; color: var(--muted); 
+        border-bottom: 3px solid transparent; transition: all 0.2s;
+    }
+    .pane-tab:hover { color: var(--primary); background: rgba(102,0,0,0.05); }
+    .pane-tab.active { color: var(--primary); border-bottom-color: var(--primary); background: white; }
+
+    .pane-content { flex: 1; overflow-y: auto; position: relative; }
+    .content-view { display: none; height: 100%; padding: 24px; }
+    .content-view.active { display: block; }
+    
+    @media(max-width: 900px){
+        .grid-layout { grid-template-columns: 1fr; padding: 0 10px 40px; height: auto; }
+        .details-pane { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; border-radius: 0; display: none; }
+        .details-pane.open { display: flex; }
+        .search-box-centered { flex-direction: column; }
+        .nav-link { display: none; }
+        .hero-title { font-size: 32px; }
+        .category-container { gap: 8px; }
+        .category-btn { padding: 8px 16px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="hdr">
+      <div class="nav-left">
+        <a href="index.html" class="brand">
+            <svg width="32" height="32" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#660000;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#4d0000;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect x="0" y="0" width="100" height="100" rx="20" fill="url(#logoGrad)" />
+                <path d="M25 30 L35 70 L50 40 L65 70 L75 30" stroke="#FFD700" stroke-width="8" fill="none"/>
+                <circle cx="50" cy="50" r="15" fill="none" stroke="#FFD700" stroke-width="3"/>
+            </svg>
+            <div class="brand-text">IIT<span>Works</span> <span class="iit-badge">MSU-IIT</span></div>
+        </a>
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="post.html" class="nav-link hide-in-header">Post a Service</a>
+        <a href="directory.html" class="nav-link">Student Directory</a>
+        <a href="landing2.html" style="background: var(--primary); color: white; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 6px; transition: 0.2s; text-decoration: none; border: 1px solid #FFD700; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+    <i class="fas fa-scroll"></i> Gig Quest
+</a>
+      </div>
+      <div class="nav-right" id="navAuth">
+        <!-- Will be populated by JavaScript -->
+        <a href="auth.html" class="sign-in">
+            <i class="fas fa-graduation-cap"></i> IIT Sign In
+        </a>
+        <a href="auth.html" class="post-gig-link" onclick="showSuccessMessage('Please sign in to post a service', 'error')">
+            <i class="fas fa-plus-circle"></i> Post Your Service
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <section class="hero-intro">
+    <div style="margin-bottom: 30px;">
+        <h1 class="hero-title">MSU-IIT Campus Quest</h1>
+        <p class="hero-subtitle">Welcome back! Connect with fellow IITians for commissions, services, and collaborations. <strong>Exclusive for MSU-IIT students only.</strong></p>
+    </div>
+    
+    <div class="search-box-centered">
+        <div class="input-wrapper">
+            <span class="input-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="What service are you looking for? (art, coding, tutoring...)" onkeyup="searchServices(event)">
+        </div>
+        <button class="find-gigs-btn" onclick="searchServices()">
+            <i class="fas fa-search"></i> Find Services
+        </button>
+    </div>
+
+    <div class="post-service-link">
+        <a href="post.html">Offer your skills</a> - Earn while studying
+    </div>
+
+    <!-- CATEGORIES -->
+    <div class="category-container">
+        <button class="category-btn art active" onclick="setCategory('all')">
+            <i class="fas fa-th"></i> All Services
+        </button>
+        <button class="category-btn art" onclick="setCategory('art')">
+            <i class="fas fa-palette"></i> Art & Design
+        </button>
+        <button class="category-btn tech" onclick="setCategory('tech')">
+            <i class="fas fa-code"></i> Tech & Coding
+        </button>
+        <button class="category-btn acad" onclick="setCategory('acad')">
+            <i class="fas fa-book"></i> Academic Help
+        </button>
+        <button class="category-btn food" onclick="setCategory('food')">
+            <i class="fas fa-utensils"></i> Food & Snacks
+        </button>
+        <button class="category-btn other" onclick="setCategory('other')">
+            <i class="fas fa-ellipsis-h"></i> Other Services
+        </button>
+    </div>
+  </section>
+
+  <div class="main-content" id="services-section">
+    <div class="grid-layout">
+        <!-- LEFT: GIG FEED -->
+        <div class="gig-feed" id="feed">
+            <div class="empty-state" id="emptyState">
+                <i class="fas fa-search"></i>
+                <h3>No services posted yet</h3>
+                <p>Be the first to post a service! Click "Post Your Service" above.</p>
+            </div>
+        </div>
+        
+        <!-- RIGHT: DETAILS PANE -->
+        <div class="details-pane" id="detailsPane">
+            <div class="close-mobile" onclick="closeMobileDetails()">
+                <i class="fas fa-arrow-left"></i> Back to Services
+            </div>
+            <div class="pane-tabs">
+                <div class="pane-tab active" onclick="switchTab('details')">Service Details</div>
+                <div class="pane-tab" onclick="switchTab('student')">Student Profile</div>
+            </div>
+            <div class="pane-content">
+                <div id="view-details" class="content-view active">
+                    <div id="detail-content">
+                        <div class="empty-state">
+                            <i class="fas fa-search"></i>
+                            <p>Select a service to view details</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="view-student" class="content-view">
+                    <div id="student-content">
+                        <div class="empty-state">
+                            <i class="fas fa-user-graduate"></i>
+                            <p>Student information will appear here</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- SUCCESS MESSAGE -->
+  <div id="successMessage" class="success-message hidden">
+      <i class="fas fa-check-circle" style="font-size: 20px;"></i>
+      <div>
+          <div style="font-weight: 700;" id="successTitle">Service Posted!</div>
+          <div style="font-size: 13px;" id="successSubtitle">Your service is now visible to IITians</div>
+      </div>
+  </div>
+
+  <!-- Common JS -->
+  <script src="js/main.js"></script>
+  
+  <!-- Homepage-specific JS -->
+  <script>
+    // Authentication check
+    document.addEventListener('DOMContentLoaded', function() {
+        const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        if (!user) {
+            // Redirect to auth page if not logged in
+            window.location.href = 'auth.html';
+            return;
+        }
+        
+        // Only run these if user is logged in
+        renderFeed();
+        highlightActiveNav('home');
+    });
+
+    function highlightActiveNav(page) {
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        const currentPage = document.querySelector(`a[href="${page}.html"], a[href="${page}"]`);
+        if (currentPage) {
+            currentPage.classList.add('active');
+        }
+    }
+  </script>
+<footer>
+
+    <div class="footer-container">
+
+        
+
+        <div class="footer-col footer-brand">
+
+            <div class="brand">
+
+                <i class="fa-solid fa-graduation-cap" style="color: #FFD700;"></i>
+
+                <div class="brand-text">IIT<span>Works</span></div>
+
+            </div>
+
+            <p>The exclusive Campus Quest for MSU-IIT.</p>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Quick Links</h3>
+
+            <ul class="footer-links">
+
+                <li><a href="index.html">Home</a></li>
+
+                <li><a href="landing2.html">Quest Board</a></li>
+
+                <li><a href="post2.html">Post Service</a></li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Support</h3>
+
+            <ul class="footer-links">
+
+                <li><a href="#">About</a></li>
+
+                <li><a href="#">Privacy</a></li>
+
+                <li><a href="#">Terms</a></li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Connect</h3>
+
+            <div class="social-icons">
+
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+
+                <a href="#" class="social-btn"><i class="fab fa-telegram-plane"></i></a>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        &copy; 2025 IIT Works | CCC100
+
+    </div>
+
+</footer>
+</body>
+</html>

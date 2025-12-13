@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gig Quest | Student Feed</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style2.css">
+
+  <style>
+    /* --- NEW STYLES FOR ACCEPT BUTTON & MODAL --- */
+    
+    /* The Big Accept Button */
+    .btn-accept-quest {
+        width: 100%;
+        padding: 18px;
+        background: #10b981; /* Success Green */
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: 800;
+        font-size: 18px;
+        text-transform: uppercase;
+        cursor: pointer;
+        letter-spacing: 1px;
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        transition: transform 0.2s, background 0.2s;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    .btn-accept-quest:hover {
+        background: #059669;
+        transform: translateY(-2px);
+    }
+    .btn-accept-quest i { font-size: 22px; }
+
+    /* The Floating Page (Modal) Overlay */
+    .modal-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 9999;
+        display: none; /* Hidden by default */
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .modal-overlay.show { display: flex; opacity: 1; }
+
+    /* The Modal Box */
+    .modal-box {
+        background: white;
+        width: 90%;
+        max-width: 450px;
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        position: relative;
+        transform: scale(0.8);
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    }
+    .modal-overlay.show .modal-box { transform: scale(1); }
+
+    .modal-icon {
+        width: 80px; height: 80px;
+        background: #ecfdf5;
+        color: #10b981;
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 35px;
+        margin: 0 auto 20px;
+    }
+
+    .modal-contact-row {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-align: left;
+    }
+
+    .btn-close-modal {
+        margin-top: 15px;
+        background: transparent;
+        border: 2px solid #e2e8f0;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        color: #64748b;
+        cursor: pointer;
+    }
+    .btn-close-modal:hover { border-color: #cbd5e1; color: #334155; }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="hdr">
+      <div class="nav-left">
+        <a href="index.html" class="brand">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <div class="brand-text">Gig<span>Quest</span> <span class="iit-badge">MSU-IIT</span></div>
+        </a>
+      </div>
+      <div class="nav-right">
+        <a href="post2.html" class="btn-post">
+            <i class="fas fa-plus"></i> Post a Service
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="main-wrapper">
+    <div class="grid-layout">
+        
+        <div class="feed-section">
+            <div class="feed-header">
+                <h2 class="feed-title">Student Posts</h2>
+                <p class="feed-subtitle">Errands, services, and help needed around campus.</p>
+            </div>
+            
+            <div class="feed-list" id="feedList">
+                </div>
+        </div>
+
+        <div class="details-pane" id="detailsPane">
+            <i class="fas fa-times close-pane" onclick="closeDetails()" style="display:none;"></i>
+            
+            <div id="emptyState" style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px; color:var(--muted);">
+                <i class="far fa-comments" style="font-size: 40px; margin-bottom: 20px; opacity:0.3;"></i>
+                <p style="font-size:15px;">Select a post from the list<br>to view details.</p>
+            </div>
+
+            <div id="detailContent" class="pane-content">
+                <div class="detail-badge" id="d-type">ERRAND</div>
+                
+                <h1 class="detail-title" id="d-title">Title Goes Here</h1>
+                
+                <div class="detail-user">
+                    <div class="user-avatar" id="d-avatar">JD</div>
+                    <div>
+                        <div style="font-weight:700; font-size:15px;" id="d-name">Student Name</div>
+                        <div style="font-size:12px; color:var(--muted);">Verified Student • <span id="d-loc">Location</span></div>
+                    </div>
+                    <div style="margin-left:auto; font-weight:800; font-size:20px; color:var(--success);" id="d-price">₱0</div>
+                </div>
+
+                <div class="detail-desc" id="d-desc">Description text...</div>
+
+                <button class="btn-accept-quest" onclick="openAcceptModal()">
+                    <i class="fas fa-check-circle"></i> Accept Quest
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="questModal">
+      <div class="modal-box">
+          <div class="modal-icon"><i class="fas fa-handshake"></i></div>
+          <h2 style="font-family:'Outfit'; font-size:24px; margin-bottom:10px;">Quest Accepted!</h2>
+          <p style="color:#64748b; margin-bottom:25px; font-size:14px;">You have committed to this task. Here are the contact details of the student:</p>
+          
+          <div class="modal-contact-row">
+              <span style="font-weight:600; color:#64748b;"><i class="fas fa-phone"></i> Mobile</span>
+              <span style="font-weight:700; color:#1e293b;" id="m-phone">0917-000-0000</span>
+          </div>
+          
+          <div class="modal-contact-row">
+              <span style="font-weight:600; color:#64748b;"><i class="fab fa-facebook-messenger"></i> Messenger</span>
+              <a href="#" target="_blank" id="m-messenger" style="font-weight:700; color:#0088cc; text-decoration:underline;">Open Chat</a>
+          </div>
+
+          <button class="btn-close-modal" onclick="closeModal()">Close</button>
+      </div>
+  </div>
+
+  <script>
+    // 1. DATA
+    const defaultPosts = [
+    ];
+
+    let currentActiveQuest = null; // Stores the currently viewed quest data
+
+    // GET SAVED POSTS
+    const savedPosts = JSON.parse(localStorage.getItem('campusPosts')) || [];
+    const posts = [...savedPosts, ...defaultPosts];
+
+    // 2. RENDER FEED
+    const list = document.getElementById('feedList');
+    
+    function render() {
+        if(posts.length === 0) {
+            list.innerHTML = '<div style="padding:20px; text-align:center;">No posts yet.</div>';
+            return;
+        }
+
+        list.innerHTML = posts.map(p => `
+            <div class="post-card" onclick="loadDetail(${p.id}, this)">
+                <div class="post-header">
+                    <div class="post-title">${p.title}</div>
+                    <div class="post-price">${p.price}</div>
+                </div>
+                <div class="post-meta">
+                    <span><i class="fas fa-user-circle"></i> ${p.name}</span>
+                    <span><i class="fas fa-map-marker-alt"></i> ${p.location}</span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // 3. LOAD DETAIL
+    function loadDetail(id, card) {
+        document.querySelectorAll('.post-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+
+        // Find and store the current quest data
+        currentActiveQuest = posts.find(item => item.id === id);
+        const p = currentActiveQuest;
+
+        document.getElementById('d-type').textContent = p.type;
+        document.getElementById('d-title').textContent = p.title;
+        document.getElementById('d-price').textContent = p.price;
+        document.getElementById('d-name').textContent = p.name;
+        document.getElementById('d-avatar').textContent = p.initials;
+        document.getElementById('d-loc').textContent = p.location;
+        document.getElementById('d-desc').textContent = p.desc;
+
+        document.getElementById('emptyState').style.display = 'none';
+        document.getElementById('detailContent').classList.add('active');
+
+        if(window.innerWidth <= 900) {
+            document.getElementById('detailsPane').classList.add('show');
+            document.querySelector('.close-pane').style.display = 'block';
+        }
+    }
+
+    // 4. MODAL LOGIC
+    function openAcceptModal() {
+        if(!currentActiveQuest) return;
+
+        // Populate Modal Data
+        document.getElementById('m-phone').textContent = currentActiveQuest.phone;
+        
+        if(currentActiveQuest.messenger && currentActiveQuest.messenger !== "#") {
+            const link = document.getElementById('m-messenger');
+            link.href = "https://m.me/" + currentActiveQuest.messenger;
+            link.style.display = "inline";
+            link.textContent = "Open Chat";
+        } else {
+             document.getElementById('m-messenger').textContent = "Not provided";
+             document.getElementById('m-messenger').style.textDecoration = "none";
+             document.getElementById('m-messenger').style.color = "#999";
+        }
+
+        // Show Modal
+        const modal = document.getElementById('questModal');
+        modal.classList.add('show');
+    }
+
+    function closeModal() {
+        document.getElementById('questModal').classList.remove('show');
+    }
+
+    function closeDetails() {
+        document.getElementById('detailsPane').classList.remove('show');
+    }
+
+    // Initialize
+    render();
+  </script>
+<footer>
+
+    <div class="footer-container">
+
+        
+
+        <div class="footer-col footer-brand">
+
+            <div class="brand">
+
+                <i class="fa-solid fa-graduation-cap" style="color: #FFD700;"></i>
+
+                <div class="brand-text">IIT<span>Works</span></div>
+
+            </div>
+
+            <p>The exclusive Campus Quest for MSU-IIT.</p>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Quick Links</h3>
+
+            <ul class="footer-links">
+
+                <li><a href="index.html">Home</a></li>
+
+                <li><a href="landing2.html">Quest Board</a></li>
+
+                <li><a href="post2.html">Post Service</a></li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Support</h3>
+
+            <ul class="footer-links">
+
+                <li><a href="#">About</a></li>
+
+                <li><a href="#">Privacy</a></li>
+
+                <li><a href="#">Terms</a></li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Connect</h3>
+
+            <div class="social-icons">
+
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+
+                <a href="#" class="social-btn"><i class="fab fa-telegram-plane"></i></a>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        &copy; 2025 IIT Works | CCC100
+
+    </div>
+
+</footer>
+</body>
+</html>

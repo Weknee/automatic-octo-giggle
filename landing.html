@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>IITWorks — MSU-IIT Campus Quest</title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Common CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    /* Landing page specific styles */
+    .landing-container {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #fff5f5 0%, #ffe6e6 100%);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .landing-header {
+      background: linear-gradient(90deg, var(--primary), var(--primary-hover));
+      padding: 20px;
+      border-bottom: 3px solid var(--accent);
+    }
+    
+    .landing-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    
+    .landing-hero {
+      max-width: 1200px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    
+    .hero-left {
+      padding-right: 40px;
+    }
+    
+    .hero-logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .hero-logo-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 48px;
+      color: var(--primary);
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+    
+    .hero-logo-text span {
+      color: var(--accent);
+    }
+    
+    .hero-title {
+      font-size: 56px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 20px;
+      line-height: 1.1;
+    }
+    
+    .hero-subtitle {
+      font-size: 20px;
+      color: var(--muted);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+    
+    .hero-features {
+      margin-top: 40px;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .feature-icon {
+      width: 50px;
+      height: 50px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    
+    .feature-text h4 {
+      margin: 0 0 5px 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+    
+    .feature-text p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    
+    .hero-right {
+      background: white;
+      border-radius: 24px;
+      padding: 50px;
+      box-shadow: 0 20px 60px rgba(102, 0, 0, 0.1);
+      border: 2px solid var(--border);
+    }
+    
+    .auth-box {
+      text-align: center;
+    }
+    
+    .auth-box h2 {
+      font-size: 32px;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    
+    .auth-box p {
+      color: var(--muted);
+      margin-bottom: 30px;
+    }
+    
+    .auth-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .auth-btn {
+      padding: 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 17px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    
+    .auth-btn-primary {
+      background: var(--primary);
+      color: white;
+      border: none;
+    }
+    
+    .auth-btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 0, 0, 0.2);
+    }
+    
+    .auth-btn-secondary {
+      background: white;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    
+    .auth-btn-secondary:hover {
+      background: #fff5f5;
+      transform: translateY(-2px);
+    }
+    
+    .test-accounts-landing {
+      background: #fff5f5;
+      padding: 25px;
+      border-radius: 16px;
+      border: 2px dashed var(--primary);
+      margin-top: 40px;
+      text-align: left;
+    }
+    
+    .test-accounts-landing h4 {
+      color: var(--primary);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .test-account-landing {
+      padding: 15px;
+      background: white;
+      border-radius: 12px;
+      margin: 10px 0;
+      border: 1px solid var(--border);
+    }
+    
+    .test-account-landing strong {
+      color: var(--primary);
+      display: block;
+      margin-bottom: 8px;
+    }
+    
+    .test-account-landing code {
+      background: #f3f2f1;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-family: monospace;
+      color: var(--text);
+    }
+    
+    .landing-footer {
+      text-align: center;
+      padding: 30px;
+      background: white;
+      border-top: 2px solid var(--border);
+      color: var(--muted);
+    }
+    
+    .stats-container {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+    
+    .stat-item {
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--primary);
+      display: block;
+    }
+    
+    .stat-label {
+      font-size: 14px;
+      color: var(--muted);
+    }
+    
+    @media (max-width: 900px) {
+      .landing-hero {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      
+      .hero-left {
+        padding-right: 0;
+        text-align: center;
+      }
+      
+      .hero-title {
+        font-size: 42px;
+      }
+      
+      .hero-logo-text {
+        font-size: 36px;
+      }
+      
+      .hero-right {
+        padding: 30px;
+      }
+      
+      .feature-item {
+        justify-content: center;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 32px;
+      }
+      
+      .hero-right {
+        padding: 20px;
+      }
+      
+      .auth-btn {
+        padding: 15px;
+        font-size: 16px;
+      }
+      
+      .stats-container {
+        gap: 20px;
+      }
+      
+      .stat-number {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="landing-container">
+    <div class="landing-header">
+      <div class="hdr">
+        <div class="nav-left">
+          <a href="landing.html" class="brand">
+            <svg width="32" height="32" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#660000;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#4d0000;stop-opacity:1" />
+                </linearGradient>
+              </defs>
+              <rect x="0" y="0" width="100" height="100" rx="20" fill="url(#logoGrad)" />
+              <path d="M25 30 L35 70 L50 40 L65 70 L75 30" stroke="#FFD700" stroke-width="8" fill="none"/>
+              <circle cx="50" cy="50" r="15" fill="none" stroke="#FFD700" stroke-width="3"/>
+            </svg>
+            <div class="brand-text">IIT<span>Works</span> <span class="iit-badge">MSU-IIT</span></div>
+          </a>
+        </div>
+        <div class="nav-right">
+          <a href="auth.html" class="sign-in">
+            <i class="fas fa-sign-in-alt"></i> Sign In
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="landing-content">
+      <div class="landing-hero">
+        <div class="hero-left">
+          <div class="hero-logo">
+            <svg width="60" height="60" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="logoGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#660000;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#4d0000;stop-opacity:1" />
+                </linearGradient>
+              </defs>
+              <rect x="0" y="0" width="100" height="100" rx="20" fill="url(#logoGrad2)" />
+              <path d="M25 30 L35 70 L50 40 L65 70 L75 30" stroke="#FFD700" stroke-width="8" fill="none"/>
+              <circle cx="50" cy="50" r="15" fill="none" stroke="#FFD700" stroke-width="3"/>
+            </svg>
+            <div class="hero-logo-text">IIT<span>Works</span></div>
+          </div>
+          
+          <h1 class="hero-title">The MSU-IIT<br>Campus Quest</h1>
+          <p class="hero-subtitle">
+            An exclusive platform where IIT students connect, collaborate, and grow together. 
+            Find services, offer your skills, and build your network within our trusted campus community.
+          </p>
+          
+          <div class="stats-container">
+            <div class="stat-item">
+              <span class="stat-number" id="userCount">150+</span>
+              <span class="stat-label">IIT Students</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" id="serviceCount">80+</span>
+              <span class="stat-label">Services Offered</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" id="categoryCount">5</span>
+              <span class="stat-label">Categories</span>
+            </div>
+          </div>
+          
+          <div class="hero-features">
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="fas fa-shield-alt"></i>
+              </div>
+              <div class="feature-text">
+                <h4>Exclusively for MSU-IIT</h4>
+                <p>Verified students only. Safe and secure campus environment.</p>
+              </div>
+            </div>
+            
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="fas fa-handshake"></i>
+              </div>
+              <div class="feature-text">
+                <h4>Trusted Community</h4>
+                <p>Connect with verified IIT students you can rely on.</p>
+              </div>
+            </div>
+            
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="fas fa-bolt"></i>
+              </div>
+              <div class="feature-text">
+                <h4>Instant Access</h4>
+                <p>Start browsing and posting services immediately after verification.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="hero-right">
+          <div class="auth-box">
+            <h2>Join IITWorks Today</h2>
+            <p>Sign in with your MSU-IIT credentials to access the Campus Quest</p>
+            
+            <div class="auth-buttons">
+              <a href="auth.html" class="auth-btn auth-btn-primary">
+                <i class="fas fa-sign-in-alt"></i> Sign In to IITWorks
+              </a>
+              <a href="auth.html" class="auth-btn auth-btn-secondary">
+                <i class="fas fa-user-plus"></i> Create New Account
+              </a>
+            </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="landing-footer">
+      <p><strong>IITWorks</strong> — Exclusive Campus Quest for MSU-IIT Students</p>
+      <p style="font-size: 14px; margin-top: 10px;">© 2025 Mindanao State University - Iligan Institute of Technology</p>
+    </div>
+  </div>
+
+  <script>
+    // Update stats with real data
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get user count from localStorage
+      const users = JSON.parse(localStorage.getItem('iitWorksUsers') || '[]');
+      const services = JSON.parse(localStorage.getItem('iitWorksServices') || '[]');
+      
+      // Update counts
+      document.getElementById('userCount').textContent = users.length + '+';
+      document.getElementById('serviceCount').textContent = services.length + '+';
+    });
+  </script>
+<footer>
+
+    <div class="footer-container">
+
+        
+
+        <div class="footer-col footer-brand">
+
+            <div class="brand">
+
+                <i class="fa-solid fa-graduation-cap" style="color: #FFD700;"></i>
+
+                <div class="brand-text">IIT<span>Works</span></div>
+
+            </div>
+
+            <p>The exclusive Campus Quest for MSU-IIT.</p>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Quick Links</h3>
+
+            <ul class="footer-links">
+
+                <li><a href="index.html">Home</a></li>
+
+                <li><a href="landing2.html">Quest Board</a></li>
+
+                <li><a href="post2.html">Post Service</a></li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Support</h3>
+
+            <ul class="footer-links">
+
+                <li><a href="#">About</a></li>
+
+                <li><a href="#">Privacy</a></li>
+
+                <li><a href="#">Terms</a></li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Connect</h3>
+
+            <div class="social-icons">
+
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+
+                <a href="#" class="social-btn"><i class="fab fa-telegram-plane"></i></a>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        &copy; 2025 IIT Works | CCC100
+
+    </div>
+
+</footer>
+</body>
+</html>

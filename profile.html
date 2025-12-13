@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My Profile — IITWorks MSU-IIT</title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Common CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    .profile-container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+      border-bottom: 2px solid var(--border);
+    }
+    
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      font-weight: 700;
+    }
+    
+    .profile-info h1 {
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    
+    .profile-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      border: 2px solid var(--border);
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+    
+    .my-jobs-list {
+      margin-top: 40px;
+    }
+    
+    .job-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+    
+    .job-actions button {
+      margin-left: 10px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    
+    .delete-btn {
+      background: #dc2626;
+      color: white;
+    }
+    
+    .edit-btn {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .no-jobs {
+      text-align: center;
+      padding: 40px;
+      color: var(--muted);
+    }
+    
+    .edit-profile-btn {
+      background: var(--accent);
+      color: var(--text);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="hdr">
+      <div class="nav-left">
+        <a href="index.html" class="brand">
+            <svg width="32" height="32" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#660000;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#4d0000;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect x="0" y="0" width="100" height="100" rx="20" fill="url(#logoGrad)" />
+                <path d="M25 30 L35 70 L50 40 L65 70 L75 30" stroke="#FFD700" stroke-width="8" fill="none"/>
+                <circle cx="50" cy="50" r="15" fill="none" stroke="#FFD700" stroke-width="3"/>
+            </svg>
+            <div class="brand-text">IIT<span>Works</span> <span class="iit-badge">MSU-IIT</span></div>
+        </a>
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="post.html" class="nav-link">Post a Service</a>
+        <a href="directory.html" class="nav-link">Student Directory</a>
+       <a href="landing2.html" style="background: var(--primary); color: white; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 6px; transition: 0.2s; text-decoration: none; border: 1px solid #FFD700; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+    <i class="fas fa-scroll"></i> Gig Quest
+</a>
+      </div>
+      </div>
+      <div class="nav-right" id="navAuth">
+        <!-- Will be populated by JavaScript -->
+      </div>
+    </div>
+  </header>
+
+  <div class="profile-container">
+      <div id="profile-content">
+          <!-- Will be populated by JavaScript -->
+          <div class="empty-state">
+              <i class="fas fa-user"></i>
+              <h3>Loading profile...</h3>
+          </div>
+      </div>
+  </div>
+
+  <!-- SUCCESS MESSAGE -->
+  <div id="successMessage" class="success-message hidden">
+      <i class="fas fa-check-circle" style="font-size: 20px;"></i>
+      <div>
+          <div style="font-weight: 700;" id="successTitle">Success!</div>
+          <div style="font-size: 13px;" id="successSubtitle"></div>
+      </div>
+  </div>
+
+  <!-- Common JS -->
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Ensure auth system initialized
+      if (typeof Auth !== 'undefined') Auth.init();
+
+      // Use currentUser (consistent with other pages)
+      const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+      if (!user) {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      loadProfile();
+    });
+
+    function loadProfile() {
+      const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+      const profileContent = document.getElementById('profile-content');
+
+      // Build profile header and actions
+      profileContent.innerHTML = `
+        <div class="profile-header">
+          <div class="profile-avatar">${user.name ? user.name.charAt(0).toUpperCase() : ''}</div>
+          <div class="profile-info">
+            <h1>${user.name || ''}</h1>
+            <p>${user.email || ''}</p>
+          </div>
+        </div>
+        <button class="edit-profile-btn" onclick="location.href='post.html'">Post a Service</button>
+        <div class="my-jobs-list">
+          <h2>My Services</h2>
+          <div id="jobs-container"></div>
+        </div>
+      `;
+
+      renderMyJobs(user);
+    }
+
+    function renderMyJobs(user) {
+      const jobsContainer = document.getElementById('jobs-container');
+      jobsContainer.innerHTML = '';
+
+      // Use getAllServices() from main.js to get services with ownership info
+      const allServices = (typeof getAllServices === 'function') ? getAllServices() : JSON.parse(localStorage.getItem('iitWorksServices') || '[]');
+
+      // Filter jobs that belong to this user (by id or email)
+      const myJobs = allServices.filter(j => (
+        (j.userId !== undefined && String(j.userId) === String(user.id)) ||
+        (j.userEmail && user.email && j.userEmail === user.email)
+      ));
+
+      if (myJobs.length === 0) {
+        jobsContainer.innerHTML = `<div class="no-jobs">You haven't posted any services yet.</div>`;
+        return;
+      }
+
+      myJobs.sort((a,b) => b.id - a.id).forEach(job => {
+        const item = document.createElement('div');
+        item.className = 'job-item';
+        item.innerHTML = `
+          <div>
+            <div style="font-weight:700;">${job.title}</div>
+            <div style="color:var(--muted); font-size:13px;">${job.category ? job.category : ''} — ${job.posted || ''}</div>
+          </div>
+          <div class="job-actions">
+            <button class="edit-btn" onclick="location.href='post.html'">Edit</button>
+            <button class="delete-btn" onclick="(function(){ if(confirm('Delete this service?')){ const res = Admin.deleteJob(${job.id}); if(res.success){ showSuccessMessage(res.message + (res.jobTitle?(': "'+res.jobTitle+'"'):'')); renderMyJobs(JSON.parse(localStorage.getItem('currentUser')||'null')); } else { showSuccessMessage(res.message, 'error'); } } })()">Delete</button>
+          </div>
+        `;
+
+        jobsContainer.appendChild(item);
+      });
+    }
+    </script>
+<footer>
+
+    <div class="footer-container">
+
+        
+
+        <div class="footer-col footer-brand">
+
+            <div class="brand">
+
+                <i class="fa-solid fa-graduation-cap" style="color: #FFD700;"></i>
+
+                <div class="brand-text">IIT<span>Works</span></div>
+
+            </div>
+
+            <p>The exclusive Campus Quest for MSU-IIT.</p>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Quick Links</h3>
+
+            <ul class="footer-links">
+
+                <li><a href="index.html">Home</a></li>
+
+                <li><a href="landing2.html">Quest Board</a></li>
+
+                <li><a href="post2.html">Post Service</a></li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Support</h3>
+
+            <ul class="footer-links">
+
+                <li><a href="#">About</a></li>
+
+                <li><a href="#">Privacy</a></li>
+
+                <li><a href="#">Terms</a></li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h3>Connect</h3>
+
+            <div class="social-icons">
+
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+
+                <a href="#" class="social-btn"><i class="fab fa-telegram-plane"></i></a>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        &copy; 2025 IIT Works | CCC100
+
+    </div>
+
+</footer>
